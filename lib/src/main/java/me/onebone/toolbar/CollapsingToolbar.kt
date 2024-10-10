@@ -61,7 +61,7 @@ class CollapsingToolbarState(
 	 * [height] indicates current height of the toolbar.
 	 */
 	var height: Int by mutableStateOf(initial)
-		private set
+		internal set
 
 	/**
 	 * [minHeight] indicates the minimum height of the collapsing toolbar. The toolbar
