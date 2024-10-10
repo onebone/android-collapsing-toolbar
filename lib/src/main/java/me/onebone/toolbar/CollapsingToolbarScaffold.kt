@@ -51,10 +51,14 @@ class CollapsingToolbarScaffoldState(
 	internal val offsetYState = mutableStateOf(initialOffsetY)
 }
 
-private class CollapsingToolbarScaffoldStateSaver: Saver<CollapsingToolbarScaffoldState, List<Any>> {
+private class CollapsingToolbarScaffoldStateSaver(
+	private val toolbarState: CollapsingToolbarState
+): Saver<CollapsingToolbarScaffoldState, List<Any>> {
 	override fun restore(value: List<Any>): CollapsingToolbarScaffoldState =
 		CollapsingToolbarScaffoldState(
-			CollapsingToolbarState(value[0] as Int),
+			toolbarState.apply {
+				height = value[0] as Int
+			},
 			value[1] as Int
 		)
 
@@ -69,7 +73,7 @@ private class CollapsingToolbarScaffoldStateSaver: Saver<CollapsingToolbarScaffo
 fun rememberCollapsingToolbarScaffoldState(
 	toolbarState: CollapsingToolbarState = rememberCollapsingToolbarState()
 ): CollapsingToolbarScaffoldState {
-	return rememberSaveable(toolbarState, saver = CollapsingToolbarScaffoldStateSaver()) {
+	return rememberSaveable(toolbarState, saver = CollapsingToolbarScaffoldStateSaver(toolbarState)) {
 		CollapsingToolbarScaffoldState(toolbarState)
 	}
 }
